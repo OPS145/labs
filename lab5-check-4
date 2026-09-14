@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# lab4-check-4
+# lab5-check-4
 
 # Author:  Murray Saul
 # Date:    February 3, 2021
 # Modified By: Jason Carman
-# Modified: September 18, 2024
+# Modified: September 14, 2026
 #
 # Purpose: Check that user correctly set permissions for files using
 #          the chmod and umask commands. This shell script will exit if errors,
@@ -13,7 +13,7 @@
 #          If no errors, then a congratulatory message will be displayed
 #          so that the user can proceed to the next section.
 
-logfile=$(getent passwd ${SUDO_USER:-$USER} | cut -d: -f6)/Documents/lab4-check-4_output.txt
+logfile=$(getent passwd ${SUDO_USER:-$USER} | cut -d: -f6)/Documents/$0_output.txt
 
 # Function to indicate OK (in green) if check is true; otherwise, indicate
 # WARNING (in red) if check is false and end with false exit status
@@ -57,7 +57,7 @@ if [ $PWD != $HOME ]; then
 fi
 
 # System information gathering
-echo "OSL645 Lab 4 Check 4 Script" > $logfile
+echo "OPS145 Lab 5 Check 4 Script" > $logfile
 
 # Add a unique identifier to the logfile
 read -p "Please enter your Seneca ID (ie jmcarman): " user
@@ -66,7 +66,7 @@ echo "------------------------------------" | tee -a $logfile
 
 # Start checking lab
 echo | tee -a $logfile
-echo "CHECKING YOUR LAB 4 WORK:" | tee -a $logfile
+echo "CHECKING YOUR LAB 5 WORK:" | tee -a $logfile
 
 echo -e "\033[1mCHECKING YOUR WORK:\033[0m"
 echo
@@ -115,8 +115,8 @@ echo | tee -a $logfile
 if [ $warningcount == 0 ]; then
   echo "Congratulations!" | tee -a $logfile
   echo | tee -a $logfile
-  echo "You have successfully completed Lab 4 - Check 4." | tee -a $logfile
-  echo "1. Show the output of this script to your OSL645 professor." | tee -a $logfile
+  echo "You have successfully completed $(echo $0)" | tee -a $logfile
+  echo "1. Show the output of this script to your OPS145 professor." | tee -a $logfile
   echo "2. A copy of this script output has been created at $logfile." | tee -a $logfile
   echo
 else

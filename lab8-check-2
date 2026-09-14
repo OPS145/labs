@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# lab8-check-2
+# lab7-check-2
 
 # Author:  Murray Saul
-# Date:    February 18, 2021
+# Date:    January 31, 2021
 # Modified by:	Jason Carman
-# Modified:	October 28, 2024
+# Modified:	September 14, 2026
 #
-# Purpose: Check that user correctly issued awk Linux commands
-#          on their matrix server. If the errors, then the
+# Purpose: Check that user correctly issued some Linux commands
+#          using EXTENDED RE  on their matrix server. If the errors, then the
 #          checking script will provide feedback to correct the problem.
 #          If no errors, then a congratulatory message will be displayed
 #          so that the user can proceed to the next section.
@@ -17,7 +17,7 @@
 # Link:    https://www.gnu.org/licenses/lgpl.html
 #
 
-logfile=$(getent passwd ${SUDO_USER:-$USER} | cut -d: -f6)/Documents/lab8-check-2_output.txt
+logfile=$(getent passwd ${SUDO_USER:-$USER} | cut -d: -f6)/Documents/$0_output.txt
 
 # Function to indicate OK (in green) if check is true; otherwise, indicate
 # WARNING (in red) if check is false and end with false exit status
@@ -61,7 +61,7 @@ if [ $PWD != $HOME ]; then
 fi
 
 # System information gathering
-echo "OSL645 Lab 8 Check 2 Script" > $logfile
+echo "OPS145 Lab 8 Check 2 Script" > $logfile
 
 # Add a unique identifier to the logfile
 read -p "Please enter your Seneca ID (ie jmcarman): " user
@@ -70,86 +70,43 @@ echo "------------------------------------" | tee -a $logfile
 
 # Start checking lab
 echo | tee -a $logfile
-echo "CHECKING YOUR LAB 8 WORK:" | tee -a $logfile
+echo "CHECKING YOUR LAB 7 WORK:" | tee -a $logfile
+
 echo -e "\033[1mCHECKING YOUR WORK:\033[0m"
 echo
 
-# Check directory "awk" created in home directory
-echo -n "Checking \"awk\" directory has been created in your home directory: " | tee -a $logfile
-check "test -d $HOME/awk" "The directory pathname \"$HOME/awk\" does NOT exist. Check if you mispelled directory name, or used uppercase letters by mistake. Create the directory \"awk\" in your home directory and re-run this checking script" | tee -a $logfile
+# Check that numbers2.dat file was copied to your regexps directory
+echo -n "Checking \"numbers2.dat\" file was copied to the \"regexps\" directory: " | tee -a $logfile
+check "test -f $HOME/regexps/numbers2.dat" "The file pathname \"$HOME/regexps/numbers2.dat\" does NOT exist. Use the \"cp\" command to properly download this file and re-run this checking script" | tee -a $logfile
 
-# Check that cars file was downloaded to your "awk" directory
-echo -n "Checking \"cars\" file was copied to the \"awk\" directory: " | tee -a $logfile
-check "test -f $HOME/awk/cars" "The file pathname \"$HOME/awk/cars\" does NOT exist. Use the \"wget\" command to properly download this file and re-run this checking script" | tee -a $logfile
+# Check ~/regexps/better-number1.txt file exists
+echo -n "Checking \"$HOME/regexps/better-number1.txt\" file exists: " | tee -a $logfile
+check "test -f $HOME/regexps/better-number1.txt" "The text file pathname \"$HOME/regexps/better-number1.txt\" does NOT exist. Check if you mispelled file pathname, or used uppercase letters by mistake. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
 
-# Check ~/awk/awk-1.txt file exists
-echo -n "Checking \"$HOME/awk/awk-1.txt\" file exists: " | tee -a $logfile
-check "test -f $HOME/awk/awk-1.txt" "The text file pathname \"$HOME/awk/awk-1.txt\" does NOT exist. Check if you mispelled file pathname, or used uppercase letters by mistake. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
-
-# Check ~/awk/awk-1.txt file contains correct results
-echo -n "Checking \"$HOME/awk/awk-1.txt\" file contains correct results: " | tee -a $logfile
-awk '/ford/' $HOME/awk/cars > /tmp/temp.$$
-check "diff $HOME/awk/awk-1.txt /tmp/temp.$$ > /dev/null" "The \"$HOME/awk/awk-1.txt\" does NOT  contain the correct results from issuing the pipeline command. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
+# Check ~/regexps/better-number1.txt file contains correct results
+echo -n "Checking \"$HOME/regexps/better-number1.txt\" file contains correct results: " | tee -a $logfile
+egrep "^[+-]{0,1}[0-9]{1,}$" ~/regexps/numbers2.dat > /tmp/temp.$$
+check "diff $HOME/regexps/better-number1.txt /tmp/temp.$$ > /dev/null" "The \"$HOME/regexps/better-number1.txt\" does NOT  contain the correct results from issuing the pipeline command. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
 rm /tmp/temp.$$ 2> /dev/null
 
-# Check ~/awk/awk-2.txt file exists
-echo -n "Checking \"$HOME/awk/awk-2.txt\" file exists: " | tee -a $logfile
-check "test -f $HOME/awk/awk-2.txt" "The text file pathname \"$HOME/awk/awk-2.txt\" does NOT exist. Check if you mispelled file pathname, or used uppercase letters by mistake. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
+# Check ~/regexps/better-number2.txt file exists
+echo -n "Checking \"$HOME/regexps/better-number2.txt\" file exists: " | tee -a $logfile
+check "test -f $HOME/regexps/better-number2.txt" "The text file pathname \"$HOME/regexps/better-number2.txt\" does NOT exist. Check if you mispelled file pathname, or used uppercase letters by mistake. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
 
-# Check ~/awk/awk-2.txt file contains correct results
-echo -n "Checking \"$HOME/awk/awk-2.txt\" file contains correct results: " | tee -a $logfile
-awk '/chevy/ {print $2,$3,$4,$5}' $HOME/awk/cars > /tmp/temp.$$
-check "diff $HOME/awk/awk-2.txt /tmp/temp.$$ > /dev/null" "The \"$HOME/awk/awk-2.txt\" does NOT  contain the correct results from issuing the pipeline command. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
+# Check ~/regexps/better-number2.txt file contains correct results
+echo -n "Checking \"$HOME/regexps/better-number2.txt\" file contains correct results: " | tee -a $logfile
+egrep "^[+-]?[0-9]+$" ~/regexps/numbers2.dat > /tmp/temp.$$
+check "diff $HOME/regexps/better-number2.txt /tmp/temp.$$ > /dev/null" "The \"$HOME/regexps/better-number2.txt\" does NOT  contain the correct results from issuing the pipeline command. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
 rm /tmp/temp.$$ 2> /dev/null
 
-# Check ~/awk/awk-3.txt file exists
-echo -n "Checking \"$HOME/awk/awk-3.txt\" file exists: " | tee -a $logfile
-check "test -f $HOME/awk/awk-3.txt" "The text file pathname \"$HOME/awk/awk-3.txt\" does NOT exist. Check if you mispelled file pathname, or used uppercase letters by mistake. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
+# Check ~/regexps/better-number3.txt file exists
+echo -n "Checking \"$HOME/regexps/better-number3.txt\" file exists: " | tee -a $logfile
+check "test -f $HOME/regexps/better-number3.txt" "The text file pathname \"$HOME/regexps/better-number3.txt\" does NOT exist. Check if you mispelled file pathname, or used uppercase letters by mistake. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
 
-# Check ~/awk/awk-3.txt file contains correct results
-echo -n "Checking \"$HOME/awk/awk-3.txt\" file contains correct results: " | tee -a $logfile
-awk '$1 ~ /Plym/ {print $2,$3,$4,$5}' $HOME/awk/cars  > /tmp/temp.$$
-check "diff $HOME/awk/awk-3.txt /tmp/temp.$$ > /dev/null" "The \"$HOME/awk/awk-3.txt\" does NOT  contain the correct results from issuing the pipeline command. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
-rm /tmp/temp.$$ 2> /dev/null
-
-# Check ~/awk/awk-4.txt file exists
-echo -n "Checking \"$HOME/awk/awk-4.txt\" file exists: " | tee -a $logfile
-check "test -f $HOME/awk/awk-4.txt" "The text file pathname \"$HOME/awk/awk-4.txt\" does NOT exist. Check if you mispelled file pathname, or used uppercase letters by mistake. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
-
-# Check ~/awk/awk-4.txt file contains correct results
-echo -n "Checking \"$HOME/awk/awk-4.txt\" file contains correct results: " | tee -a $logfile
-awk '$5 < 5000 {print $1,$2,$4,$5}' $HOME/awk/cars > /tmp/temp.$$
-check "diff $HOME/awk/awk-4.txt /tmp/temp.$$ > /dev/null" "The \"$HOME/awk/awk-4.txt\" does NOT  contain the correct results from issuing the pipeline command. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
-rm /tmp/temp.$$ 2> /dev/null
-
-# Check ~/awk/awk-5.txt file exists
-echo -n "Checking \"$HOME/awk/awk-5.txt\" file exists: " | tee -a $logfile
-check "test -f $HOME/awk/awk-5.txt" "The text file pathname \"$HOME/awk/awk-5.txt\" does NOT exist. Check if you mispelled file pathname, or used uppercase letters by mistake. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
-
-# Check ~/awk/awk-5.txt file contains correct results
-echo -n "Checking \"$HOME/awk/awk-5.txt\" file contains correct results: " | tee -a $logfile
-awk '$5 < 5000 {print $5,$4,$2,$1}' $HOME/awk/cars > /tmp/temp.$$
-check "diff $HOME/awk/awk-5.txt /tmp/temp.$$ > /dev/null" "The \"$HOME/awk/awk-5.txt\" does NOT  contain the correct results from issuing the pipeline command. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
-rm /tmp/temp.$$ 2> /dev/null
-
-# Check ~/awk/awk-6.txt file exists
-echo -n "Checking \"$HOME/awk/awk-6.txt\" file exists: " | tee -a $logfile
-check "test -f $HOME/awk/awk-6.txt" "The text file pathname \"$HOME/awk/awk-6.txt\" does NOT exist. Check if you mispelled file pathname, or used uppercase letters by mistake. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
-
-# Check ~/awk/awk-6.txt file contains correct results
-echo -n "Checking \"$HOME/awk/awk-6.txt\" file contains correct results: " | tee -a $logfile
-awk '$1 ~ /^f/ {print $1,$2,$4}' $HOME/awk/cars > /tmp/temp.$$
-check "diff $HOME/awk/awk-6.txt /tmp/temp.$$ > /dev/null" "The \"$HOME/awk/awk-6.txt\" does NOT  contain the correct results from issuing the pipeline command. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
-rm /tmp/temp.$$ 2> /dev/null
-
-# Check ~/awk/awk-7.txt file exists
-echo -n "Checking \"$HOME/awk/awk-7.txt\" file exists: " | tee -a $logfile
-check "test -f $HOME/awk/awk-7.txt" "The text file pathname \"$HOME/awk/awk-7.txt\" does NOT exist. Check if you mispelled file pathname, or used uppercase letters by mistake. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
-
-# Check ~/awk/awk-7.txt file contains correct results
-echo -n "Checking \"$HOME/awk/awk-7.txt\" file contains correct results: " | tee -a $logfile
-awk '$1 ~ /ford/ && $5 > 10000 {print $0}' $HOME/awk/cars > /tmp/temp.$$
-check "diff $HOME/awk/awk-7.txt /tmp/temp.$$ > /dev/null" "The \"$HOME/awk/awk-7.txt\" does NOT  contain the correct results from issuing the pipeline command. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
+# Check ~/regexps/better-number3.txt file contains correct results
+echo -n "Checking \"$HOME/regexps/better-number3.txt\" file contains correct results: " | tee -a $logfile
+egrep "^[+-]{0,1}[0-9]{1,}[.]{0,1}[0-9]*$" ~/regexps/numbers2.dat > /tmp/temp.$$
+check "diff $HOME/regexps/better-number3.txt /tmp/temp.$$ > /dev/null" "The \"$HOME/regexps/better-number3.txt\" does NOT  contain the correct results from issuing the pipeline command. Reissue the correct pipeline command and re-run this checking script" | tee -a $logfile
 rm /tmp/temp.$$ 2> /dev/null
 
 warningcount=$(grep -c "WARNING" $logfile)
@@ -160,8 +117,8 @@ echo | tee -a $logfile
 if [ $warningcount == 0 ]; then
   echo "Congratulations!" | tee -a $logfile
   echo | tee -a $logfile
-  echo "You have successfully completed Lab 8 - Check 2" | tee -a $logfile
-  echo "1. Show the output of this script to your OSL645 professor." | tee -a $logfile
+  echo "You have successfully completed $(echo $0)" | tee -a $logfile
+  echo "1. Show the output of this script to your OPS145 professor." | tee -a $logfile
   echo "2. A copy of this script output has been created at $logfile." | tee -a $logfile
   echo
 else

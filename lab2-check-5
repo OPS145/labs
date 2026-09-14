@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# ./lab1-check-6
+# ./lab2-check-5
 
 # Author:  Murray Saul
 # Date:    January 29, 2021
 # Modified by: Jason Carman
-# Date: August 31, 2024
+# Date: September 14, 2026
 #
 # Purpose: Check that user correctly created symbolic links
 #          on their matrix server. If the errors, then the
@@ -15,7 +15,7 @@
 
 # Function to indicate OK (in green) if check is true; otherwise, indicate
 # WARNING (in red) if check is false and end with false exit status
-logfile=$(getent passwd ${SUDO_USER:-$USER} | cut -d: -f6)/Documents/lab1-check-6_output.txt
+logfile=$(getent passwd ${SUDO_USER:-$USER} | cut -d: -f6)/Documents/$0_output.txt
 
 function check(){
 
@@ -38,16 +38,16 @@ set -o history
 clear  # Clear the screen
 
 # System information gathering
-echo "OSL645 Lab 1 Check 6 Script" > $logfile
+echo "OPS145 Lab 2 Check 5 Script" > $logfile
 
 # Add a unique identifier to the logfile
 read -p "Please enter your Seneca ID (ie jmcarman): " user
 echo "Unique Identifer: $(echo $user | sha256sum)" | tee -a $logfile
 echo "------------------------------------" | tee -a $logfile
 
-# Start checking lab1
+# Start checking lab2
 echo | tee -a $logfile
-echo "CHECKING YOUR LAB 1 WORK:" | tee -a $logfile
+echo "CHECKING YOUR LAB 2 WORK:" | tee -a $logfile
 
 # Start checking lab
 echo -e "\033[1mCHECKING YOUR WORK:\033[0m"
@@ -80,12 +80,12 @@ check "test -h $HOME/text-file.sym.lnk" "The file pathname \"$HOME/text-file.sym
 warningcount=$(grep -c "WARNING" $logfile)
 
 echo | tee -a $logfile
-echo | tee -a $logfile
+
 if [ $warningcount == 0 ]; then
   echo "Congratulations!" | tee -a $logfile
   echo | tee -a $logfile
-  echo "You have successfully completed Lab 1 - Check 6." | tee -a $logfile
-  echo "1. Show the output of this script to your OSL645 professor." | tee -a $logfile
+  echo "You have successfully completed $(echo $0)" | tee -a $logfile
+  echo "1. Show the output of this script to your OPS145 professor." | tee -a $logfile
   echo "2. A copy of this script output has been created at $logfile." | tee -a $logfile
   echo
 else

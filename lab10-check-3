@@ -3,7 +3,7 @@
 # lab10-check-3
 
 # Author: Jason Carman
-# Modified:	November 20, 2024
+# Modified:	September 14, 2026
 #
 # Purpose: Verify that user created a shell script "convert.bash"
 #          and ran it
@@ -62,7 +62,7 @@ clear  # Clear the screen
 
 
 # System information gathering
-echo "OSL645 Lab 10 Check 3 Script" > $logfile
+echo "OPS145 Lab 10 Check 3 Script" > $logfile
 echo | tee -a $logfile
 echo "CHECKING YOUR LAB 10 WORK:" | tee -a $logfile
 echo | tee -a $logfile
@@ -88,8 +88,8 @@ echo | tee -a $logfile
 if [ $warningcount == 0 ]; then
   echo "Congratulations!" | tee -a $logfile
   echo | tee -a $logfile
-  echo "You have successfully completed Lab 10 - Check 3" | tee -a $logfile
-  echo "1. Show the output of this script to your OSL645 professor." | tee -a $logfile
+  echo "You have successfully completed $(echo $0)" | tee -a $logfile
+  echo "1. Show the output of this script to your OPS145 professor." | tee -a $logfile
   echo "2. A copy of this script output has been created at $logfile." | tee -a $logfile
   echo
 else

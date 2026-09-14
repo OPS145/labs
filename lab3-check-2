@@ -1,23 +1,19 @@
 #!/bin/bash
 
-# lab3-check-2
+# week3-check-2
 
 # Author:  Murray Saul
-# Date:    January 17, 2021
-# Modified by:	Jason Carman
-# Modified: September 20, 2024
+# Date:    January 15, 2020
+# Modified By: Jason Carman
+# Modified: September 14, 2026
 #
-# Purpose: Check that user correctly removed temporary text files
-#          in their ~/redirect directory. If there are errors
-#          users will be provided feedback to correct the problem.
+# Purpose: Check that user correctly issued some Linux file management
+#          commands. This shell script will exit if errors,
+#          but will provide feedback to correct the problem.
 #          If no errors, then a congratulatory message will be displayed
 #          so that the user can proceed to the next section.
-#
-# License: LGPL version 3
-# Link:    https://www.gnu.org/licenses/lgpl.html
-#
 
-logfile=$(getent passwd ${SUDO_USER:-$USER} | cut -d: -f6)/Documents/lab3-check-2_output.txt
+logfile=$(getent passwd ${SUDO_USER:-$USER} | cut -d: -f6)/Documents/$0_output.txt
 
 # Function to indicate OK (in green) if check is true; otherwise, indicate
 # WARNING (in red) if check is false and end with false exit status
@@ -43,7 +39,7 @@ set -o history
 clear  # Clear the screen
 
 # Make certain user is in the home directory
-
+#
 if [ $PWD != $HOME ]; then
    echo -e "\033[1mERROR:\033[0m"
    echo
@@ -61,80 +57,32 @@ if [ $PWD != $HOME ]; then
 fi
 
 # System information gathering
-echo "OSL645 Lab 3 Check 2 Script" > $logfile
+echo "OPS145 Lab 3 Check 2 Script" > $logfile
 
 # Add a unique identifier to the logfile
 read -p "Please enter your Seneca ID (ie jmcarman): " user
 echo "Unique Identifer: $(echo $user | sha256sum)" | tee -a $logfile
 echo "------------------------------------" | tee -a $logfile
 
-# Start checking lab
+# Start checking lab2
 echo | tee -a $logfile
 echo "CHECKING YOUR LAB 3 WORK:" | tee -a $logfile
 
+# Start checking week3 tutorial
 echo -e "\033[1mCHECKING YOUR WORK:\033[0m"
 echo
 
-# Check directory "redirect" created in home directory
-echo -n "Checking \"$HOME/redirect\" directory has been created: " | tee -a $logfile
-check "test -d $HOME/redirect" "The directory pathname \"$HOME/redirect\" does NOT exist. Check if you mispelled directory name, or used uppercase letters by mistake. Create the directory \"uli101xx\" in your home directory and re-run this checking script" | tee -a $logfile
+# Check your home directory contains file called ls
+echo -n "Checking your home directory contains copied file \"ls\": " | tee -a $logfile
+check "test -f $HOME/ls" "The regular file pathname \"$HOME/ls\" does NOT exist. Check if you mispelled directory name, or used uppercase letters by mistake. Reissue the Linux command to copy the /bin/ls file to your home directory and re-run this checking script" | tee -a $logfile
 
+# Check your home directory contains file called ls
+echo -n "Checking your examples directory contains copied file \"ls\": " | tee -a $logfile
+check "test -f $HOME/tutorial3/practice/examples/ls" "The regular file pathname \"$HOME/tutorial3/practice/examples/ls\" does NOT exist. Check if you mispelled directory name, or used uppercase letters by mistake. Reissue the Linux command to copy the /bin/ls file to your current directory (which should have been set to \"examples\") and re-run this checking script" | tee -a $logfile
 
-# Check ~/redirect/output.txt file exists
-echo -n "Checking \"$HOME/redirect/output.txt\" text file has been removed: " | tee -a $logfile
-check "! test -f $HOME/redirect/output.txt" "The text file pathname \"$HOME/redirect/output.txt\" still exists. Remove that temporary text file and re-run this checking script" | tee -a $logfile
-
-# Check ~/redirect/output2.txt file exists
-echo -n "Checking \"$HOME/redirect/output2.txt\" text file has been removed: " | tee -a $logfile
-check "! test -f $HOME/redirect/output2.txt" "The text file pathname \"$HOME/redirect/output2.txt\" still exists. Remove that temporary text file and re-run this checking script" | tee -a $logfile
-
-# Check ~/redirect/output3.txt file exists
-echo -n "Checking \"$HOME/redirect/output3.txt\" text file has been removed: " | tee -a $logfile
-check "! test -f $HOME/redirect/output3.txt" "The text file pathname \"$HOME/redirect/output3.txt\" still exists. Remove that temporary text file and re-run this checking script" | tee -a $logfile
-
-# Check ~/redirect/field5.txt file exists
-echo -n "Checking \"$HOME/redirect/field5.txt\" text file has been removed: " | tee -a $logfile
-check "! test -f $HOME/redirect/field5.txt" "The text file pathname \"$HOME/redirect/field5.txt\" still exists. Remove that temporary text file and re-run this checking script" | tee -a $logfile
-
-# Check ~/redirect/field123.txt file exists
-echo -n "Checking \"$HOME/redirect/field123.txt\" text file has been removed: " | tee -a $logfile
-check "! test -f $HOME/redirect/field123.txt" "The text file pathname \"$HOME/redirect/field123.txt\" still exists. Remove that temporary text file and re-run this checking script" | tee -a $logfile
-
-# Check ~/redirect/field15.txt file exists
-echo -n "Checking \"$HOME/redirect/field15.txt\" text file has been removed: " | tee -a $logfile
-check "! test -f $HOME/redirect/field15.txt" "The text file pathname \"$HOME/redirect/field15.txt\" still exists. Remove that temporary text file and re-run this checking script" | tee -a $logfile
-
-# Check ~/redirect/count.txt file exists
-echo -n "Checking \"$HOME/redirect/count.txt\" text file has been removed: " | tee -a $logfile
-check "! test -f $HOME/redirect/count.txt" "The text file pathname \"$HOME/redirect/count.txt\" still exists. Remove that temporary text file and re-run this checking script" | tee -a $logfile
-
-# Check ~/redirect/count1.txt file exists
-echo -n "Checking \"$HOME/redirect/count1.txt\" text file has been removed: " | tee -a $logfile
-check "! test -f $HOME/redirect/count1.txt" "The text file pathname \"$HOME/redirect/count1.txt\" still exists. Remove that temporary text file and re-run this checking script" | tee -a $logfile
-
-# Check ~/redirect/count2.txt file exists
-echo -n "Checking \"$HOME/redirect/count2.txt\" text file has been removed: " | tee -a $logfile
-check "! test -f $HOME/redirect/count2.txt" "The text file pathname \"$HOME/redirect/count2.txt\" still exists. Remove that temporary text file and re-run this checking script" | tee -a $logfile
-
-# Check ~/redirect/listing.txt file exists
-echo -n "Checking \"$HOME/redirect/listing.txt\" text file has been removed: " | tee -a $logfile
-check "! test -f $HOME/redirect/listing.txt" "The text file pathname \"$HOME/redirect/listing.txt\" still exists. Remove that temporary text file and re-run this checking script" | tee -a $logfile
-
-# Check ~/redirect/combined.txt file exists
-echo -n "Checking \"$HOME/redirect/combined.txt\" text file has been removed: " | tee -a $logfile
-check "! test -f $HOME/redirect/combined.txt" "The text file pathname \"$HOME/redirect/combined.txt\" still exists. Remove that temporary text file and re-run this checking script" | tee -a $logfile
-
-# Check ~/redirect/result.txt file exists
-echo -n "Checking \"$HOME/redirect/result.txt\" text file has been removed: " | tee -a $logfile
-check "! test -f $HOME/redirect/result.txt" "The text file pathname \"$HOME/redirect/result.txt\" still exists. Remove that temporary text file and re-run this checking script" | tee -a $logfile
-
-# Check ~/redirect/myoutput.txt file exists
-echo -n "Checking \"$HOME/redirect/myoutput.txt\" text file has been removed: " | tee -a $logfile
-check "! test -f $HOME/redirect/myoutput.txt" "The text file pathname \"$HOME/redirect/myoutput.txt\" still exists. Remove that temporary text file and re-run this checking script" | tee -a $logfile
-
-# Check ~/redirect/line2.txt file exists
-echo -n "Checking \"$HOME/redirect/line2.txt\" text file has been removed: " | tee -a $logfile
-check "! test -f $HOME/redirect/line2.txt" "The text file pathname \"$HOME/redirect/line2.txt\" still exists. Remove that temporary text file and re-run this checking script" | tee -a $logfile
+# Check your home directory contains file called ls.bk
+echo -n "Checking your examples directory contains copied file \"ls.bk\": " | tee -a $logfile
+check "test -f $HOME/tutorial3/practice/examples/ls.bk" "The regular file pathname \"$HOME/tutorial3/practice/examples/ls.bk\" does NOT exist. Check if you mispelled directory name, or used uppercase letters by mistake. Reissue the Linux command to copy the /bin/ls file to your current directory (which should have been set to \"examples\") and re-run this checking script" | tee -a $logfile
 
 warningcount=$(grep -c "WARNING" $logfile)
 
@@ -144,8 +92,8 @@ echo | tee -a $logfile
 if [ $warningcount == 0 ]; then
   echo "Congratulations!" | tee -a $logfile
   echo | tee -a $logfile
-  echo "You have successfully completed Lab 3 - Check 2." | tee -a $logfile
-  echo "1. Show the output of this script to your OSL645 professor." | tee -a $logfile
+  echo "You have successfully completed $(echo $0)" | tee -a $logfile
+  echo "1. Show the output of this script to your OPS145 professor." | tee -a $logfile
   echo "2. A copy of this script output has been created at $logfile." | tee -a $logfile
   echo
 else

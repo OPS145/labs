@@ -3,22 +3,17 @@
 # lab5-check-1
 
 # Author:  Murray Saul
-# Date:    January 27, 2020
-# Modified by:	Jason Carman
-# Modified:	September 25, 2024
+# Date:    January 21, 2020
+# Modified By: Jason Carman
+# Modified: September 14, 2026
 #
 # Purpose: Check that user correctly created the specified directory
-#          structure and the regular file and it's contents.
-#          This shell script will exit if errors, but will provide
-#          feedback to correct the problem.
+#          structure. This shell script will exit if errors,
+#          but will provide feedback to correct the problem.
 #          If no errors, then a congratulatory message will be displayed
 #          so that the user can proceed to the next section.
-#
-# License: LGPL version 3
-# Link:    https://www.gnu.org/licenses/lgpl.html
-#
 
-logfile=$(getent passwd ${SUDO_USER:-$USER} | cut -d: -f6)/Documents/lab5-check-1_output.txt
+logfile=$(getent passwd ${SUDO_USER:-$USER} | cut -d: -f6)/Documents/$0_output.txt
 
 # Function to indicate OK (in green) if check is true; otherwise, indicate
 # WARNING (in red) if check is false and end with false exit status
@@ -45,7 +40,6 @@ clear  # Clear the screen
 
 # Make certain user is in the home directory
 
-
 if [ $PWD != $HOME ]; then
    echo -e "\033[1mERROR:\033[0m"
    echo
@@ -61,9 +55,8 @@ if [ $PWD != $HOME ]; then
 
    exit 1
 fi
-
 # System information gathering
-echo "OSL645 Lab 5 Check 1 Script" > $logfile
+echo "OPS145 Lab 5 Check 1 Script" > $logfile
 
 # Add a unique identifier to the logfile
 read -p "Please enter your Seneca ID (ie jmcarman): " user
@@ -77,22 +70,29 @@ echo "CHECKING YOUR LAB 5 WORK:" | tee -a $logfile
 echo -e "\033[1mCHECKING YOUR WORK:\033[0m"
 echo
 
-# Check directory ~/local directory created
-echo -n "Checking \"~/local\" directory has been created: " | tee -a $logfile
-check "test -d $HOME/local" "The directory pathname \"$HOME/local\" does NOT exist. Check if you mispelled directory name, or used uppercase letters by mistake. Create the directory \"local\" in your home directory and re-run this checking script" | tee -a $logfile
+# Check directory documents created in home directory
+echo -n "Checking \"documents\" directory has been created in your home directory: " | tee -a $logfile
+check "test -d $HOME/documents" "The directory pathname \"$HOME/documents\" does NOT exist. Check if you mispelled directory name, or used uppercase letters by mistake. Create the directory \"documents\" in your home directory and re-run this checking script" | tee -a $logfile
 
-# Check text file myfile.txt created in local directory
-echo -n "Checking \"~/local/myfile.txt\" file created: " | tee -a $logfile
-check "test -f $HOME/local/myfile.txt" "The file pathname \"$HOME/local/myfile.txt\" does NOT exist. Check if you mispelled directory name, or used uppercase letters by mistake. Create the file \"$HOME/local/myfile.txt\" in your home directory and re-run this checking script" | tee -a $logfile
+# Check directory clients created in home directory
+echo -n "Checking \"clients\" directory has been created in your home directory: " | tee -a $logfile
+check "test -d $HOME/clients" "The directory pathname \"$HOME/clients\" does NOT exist. Check if you mispelled directory name, or used uppercase letters by mistake. Create the directory \"clients\" in your home directory and re-run this checking script" | tee -a $logfile
 
-cat > /tmp/myfile.$$ <<+
-This is my file
-It is a small file
-+
+# Check directory vendors created in home directory
+echo -n "Checking \"vendors\" directory has been created in your home directory: " | tee -a $logfile
+check "test -d $HOME/vendors" "The directory pathname \"$HOME/vendors\" does NOT exist. Check if you mispelled directory name, or used uppercase letters by mistake. Create the directory \"vendors\" in your home directory and re-run this checking script" | tee -a $logfile
 
-# Check text file contains the correct content
-echo -n "Checking \"~/local/myfile.txt\" has same contents stated in tutorial: " | tee -a $logfile
-check "diff /tmp/myfile.$$ $HOME/local/myfile.txt > /dev/null 2> /dev/null" "The file \"$HOME/local/myfile.txt\" does NOT contain the exact text as instructed in the tutorial. Please edit this file to make identical to text in tutorial (make sure to press ENTER after each line), save, exit and re-run this checking script" | tee -a $logfile
+# Check directory documents/memos created in home directory
+echo -n "Checking \"documents/memos\" directory has been created in your home directory: " | tee -a $logfile
+check "test -d $HOME/documents/memos" "The directory pathname \"$HOME/documents/memos\" does NOT exist. Check if you mispelled directory name, or used uppercase letters by mistake. Create the directory \"documents/memos\" in your home directory and re-run this checking script" | tee -a $logfile
+
+# Check directory documents/reports created in home directory
+echo -n "Checking \"documents/reports\" directory has been created in your home directory: " | tee -a $logfile
+check "test -d $HOME/documents/reports" "The directory pathname \"$HOME/documents/reports\" does NOT exist. Check if you mispelled directory name, or used uppercase letters by mistake. Create the directory \"documents/reports\" in your home directory and re-run this checking script" | tee -a $logfile
+
+# Check directory documents/contracts created in home directory
+echo -n "Checking \"documents/contracts\" directory has been created in your home directory: " | tee -a $logfile
+check "test -d $HOME/documents/contracts" "The directory pathname \"$HOME/documents/contracts\" does NOT exist. Check if you mispelled directory name, or used uppercase letters by mistake. Create the directory \"documents/contracts\" in your home directory and re-run this checking script" | tee -a $logfile
 
 warningcount=$(grep -c "WARNING" $logfile)
 
@@ -102,8 +102,8 @@ echo | tee -a $logfile
 if [ $warningcount == 0 ]; then
   echo "Congratulations!" | tee -a $logfile
   echo | tee -a $logfile
-  echo "You have successfully completed Lab 5 - Check 1." | tee -a $logfile
-  echo "1. Show the output of this script to your OSL645 professor." | tee -a $logfile
+  echo "You have successfully completed $(echo $0)" | tee -a $logfile
+  echo "1. Show the output of this script to your OPS145 professor." | tee -a $logfile
   echo "2. A copy of this script output has been created at $logfile." | tee -a $logfile
   echo
 else

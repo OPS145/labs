@@ -1,15 +1,16 @@
 #!/bin/bash
-#
-# lab6-check-3
+
+# lab6-check-1
 
 # Author:  Murray Saul
-# Date:    January 29, 2021
+# Date:    January 27, 2020
 # Modified by:	Jason Carman
-# Modified:	October 15, 2024
+# Modified:	September 14, 2026
 #
-# Purpose: Check that user correctly created persistent aliases
-#          on their VM. If the errors, then the
-#          checking script will provide feedback to correct the problem.
+# Purpose: Check that user correctly created the specified directory
+#          structure and the regular file and it's contents.
+#          This shell script will exit if errors, but will provide
+#          feedback to correct the problem.
 #          If no errors, then a congratulatory message will be displayed
 #          so that the user can proceed to the next section.
 #
@@ -17,10 +18,10 @@
 # Link:    https://www.gnu.org/licenses/lgpl.html
 #
 
+logfile=$(getent passwd ${SUDO_USER:-$USER} | cut -d: -f6)/Documents/$0_output.txt
+
 # Function to indicate OK (in green) if check is true; otherwise, indicate
 # WARNING (in red) if check is false and end with false exit status
-
-logfile=$(getent passwd ${SUDO_USER:-$USER} | cut -d: -f6)/Documents/lab6-check-1_output.txt
 
 function check(){
 
@@ -29,7 +30,7 @@ function check(){
   else
      echo -e "\e[0;31mWARNING\e[m"
      echo 
-     echo "$2 "
+     echo $2 
      echo
      exit 1
   fi
@@ -43,6 +44,7 @@ set -o history
 clear  # Clear the screen
 
 # Make certain user is in the home directory
+
 
 if [ $PWD != $HOME ]; then
    echo -e "\033[1mERROR:\033[0m"
@@ -61,7 +63,7 @@ if [ $PWD != $HOME ]; then
 fi
 
 # System information gathering
-echo "OSL645 Lab 6 Check 1 Script" > $logfile
+echo "OPS145 Lab 6 Check 1 Script" > $logfile
 
 # Add a unique identifier to the logfile
 read -p "Please enter your Seneca ID (ie jmcarman): " user
@@ -75,34 +77,22 @@ echo "CHECKING YOUR LAB 6 WORK:" | tee -a $logfile
 echo -e "\033[1mCHECKING YOUR WORK:\033[0m"
 echo
 
-# Assign value to a variable to act as a "flag" for alias match
+# Check directory ~/local directory created
+echo -n "Checking \"~/local\" directory has been created: " | tee -a $logfile
+check "test -d $HOME/local" "The directory pathname \"$HOME/local\" does NOT exist. Check if you mispelled directory name, or used uppercase letters by mistake. Create the directory \"local\" in your home directory and re-run this checking script" | tee -a $logfile
 
-match=0
+# Check text file myfile.txt created in local directory
+echo -n "Checking \"~/local/myfile.txt\" file created: " | tee -a $logfile
+check "test -f $HOME/local/myfile.txt" "The file pathname \"$HOME/local/myfile.txt\" does NOT exist. Check if you mispelled directory name, or used uppercase letters by mistake. Create the file \"$HOME/local/myfile.txt\" in your home directory and re-run this checking script" | tee -a $logfile
 
-# Loop to read in all aliases (line-by-line)
+cat > /tmp/myfile.$$ <<+
+This is my file
+It is a small file
++
 
-while read line
-do
-
-   # if line matches "lh=" pattern, increase # of matches by value of 1
-
-   if echo "$line" | grep -sq "lh="
-   then
-     ((match++)) 
-   fi
-done < "${1:-/dev/stdin}"
-
-# Check that "lh" alias is in computer memory using the value of
-# "match" variable. If match variable is NOT equal to 0 (i.e. no matches)
-# then TRUE value; otherwise, FALSE value when evaluated
-
-echo -n "Checking \"lh\" alias has been created: "
-check "test $match -ne 0" "The alias called \"lh\" does NOT exist. Issue the \"alias\" command to properly create this alias and re-run this checking script"
-
-
-# Check that "lh" alias has been added to the ~/.bashrc startup file
-echo -n "Checking that \"lh\" has been added to the \"~/.bashrc\" startup file: " | tee -a $logfile
-check "grep -sq 'lh\=' ~/.bashrc" "The \"$HOME/.bashrc\" startup file does NOT contain the Linux command to create the \"lh\" alias. Make corrections and re-run this checking script" | tee -a $logfile
+# Check text file contains the correct content
+echo -n "Checking \"~/local/myfile.txt\" has same contents stated in tutorial: " | tee -a $logfile
+check "diff /tmp/myfile.$$ $HOME/local/myfile.txt > /dev/null 2> /dev/null" "The file \"$HOME/local/myfile.txt\" does NOT contain the exact text as instructed in the tutorial. Please edit this file to make identical to text in tutorial (make sure to press ENTER after each line), save, exit and re-run this checking script" | tee -a $logfile
 
 warningcount=$(grep -c "WARNING" $logfile)
 
@@ -112,8 +102,8 @@ echo | tee -a $logfile
 if [ $warningcount == 0 ]; then
   echo "Congratulations!" | tee -a $logfile
   echo | tee -a $logfile
-  echo "You have successfully completed Lab 6 - Check 1" | tee -a $logfile
-  echo "1. Show the output of this script to your OSL645 professor." | tee -a $logfile
+  echo "You have successfully completed $(echo $0)" | tee -a $logfile
+  echo "1. Show the output of this script to your OPS145 professor." | tee -a $logfile
   echo "2. A copy of this script output has been created at $logfile." | tee -a $logfile
   echo
 else
