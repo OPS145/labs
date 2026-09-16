@@ -21,7 +21,7 @@
 # WARNING (in red) if check is false and end with false exit status
 
 suser=${SUDO_USER:-$USER}
-logfile=$(getent passwd ${SUDO_USER:-$USER} | cut -d: -f6)/Documents/$0_output.txt
+logfile=$(getent passwd ${SUDO_USER:-$USER} | cut -d: -f6)/Documents/$(echo $0 | cut -d"/" -f5)_output.txt
 
 function check(){
 
