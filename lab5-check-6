@@ -102,7 +102,7 @@ $HOME/lab5/hello.bash > /tmp/student.$$
 # we are only interested in TRUE or FALSE.
 
 echo -n "Checking your \"hello.bash\" shell script file produces CORRECT required output: " | tee -a $logfile
-check "diff /tmp/student.$$ /tmp/compare.$$ > /dev/null 2> /dev/null" "The OUTPUT when running your Bash shell script does NOT match\nthe required specifications provided from your tutorial instructions.\n\n\e[3;4;33mYOUR SHELL SCRIPT OUTPUT (including empty lines)\e[0m\n$(cat /tmp/student.$$)\n\n\e[3;4;33mCORRECT SHELL SCRIPT OUTPUT (including empty lines)\e[0m\n$(cat /tmp/compare.$$)\n\nCAREFULLY look for differences, then make corrections to your Bash shell script\nto match CORRECT OUTPUT, save editing changes, run your script to confirm,\nand then re-run this checking script.\n\nGET USED TO THIS, SINCE THIS IS WHAT YOUR ASSIGNMENT 3\nPROGRAM WILL DO TO CHECK FOR CORRECT OUTPUT!\n\n" | tee -a $logfile
+check "diff /tmp/student.$$ /tmp/compare.$$ > /dev/null 2> /dev/null" "The OUTPUT when running your Bash shell script does NOT match\nthe required specifications provided from your tutorial instructions.\n\n\e[3;4;33mYOUR SHELL SCRIPT OUTPUT (including empty lines)\e[0m\n$(cat /tmp/student.$$)\n\n\e[3;4;33mCORRECT SHELL SCRIPT OUTPUT (including empty lines)\e[0m\n$(cat /tmp/compare.$$)\n\nCAREFULLY look for differences, then make corrections to your Bash shell script\nto match CORRECT OUTPUT, save editing changes, run your script to confirm,\nand then re-run this checking script.\n\nn" | tee -a $logfile
 
 warningcount=$(grep -c "WARNING" $logfile)
 
