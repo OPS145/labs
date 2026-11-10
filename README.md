@@ -1,2 +1,2 @@
-# OSL645
-Weekly tutorial lab check scripts
+# OPS145
+Lab check scripts
