@@ -8,7 +8,7 @@
 # Modified:	September 14, 2026
 #
 # Purpose: Check that user correctly issued sed Linux commands
-#          on their matrix server. If the errors, then the
+#          on their virtual machine. If the errors, then the
 #          checking script will provide feedback to correct the problem.
 #          If no errors, then a congratulatory message will be displayed
 #          so that the user can proceed to the next section.
@@ -61,7 +61,7 @@ if [ $PWD != $HOME ]; then
 fi
 
 # System information gathering
-echo "OSL645 Lab 8 Check 1 Script" > $logfile
+echo "OSL645 Lab 9 Check 1 Script" > $logfile
 
 # Add a unique identifier to the logfile
 read -p "Please enter your Seneca ID (ie jmcarman): " user
